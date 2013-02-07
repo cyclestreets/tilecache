@@ -25,6 +25,7 @@ $tileserver = str_replace ('(a|b|c)', $serverLetter, $tileserver);
 $path = '/' . $z . '/' . $x . '/';
 $location = $path . $y . '.png';
 $url = $tileserver . $location;
+ini_set ('user_agent', $userAgent);
 if (!$binary = @file_get_contents ($url)) {		// Error 404 or empty file
 	error_log ("Remote tile failed {$url}");
 	return false;
