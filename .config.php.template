@@ -1,0 +1,14 @@
+<?php
+
+# Define supported layers, the first being a fallback
+$layers = array (
+	'mapnik' => 'http://(a|b|c).tile.opencyclemap.org/cycle',					// e.g. http://a.tile.openstreetmap.org/16/32752/21788.png
+	'opencyclemap' => 'http://(a|b|c).tile.opencyclemap.org/cycle',					// e.g. http://a.tile.opencyclemap.org/cycle/18/128676/81699.png
+	'simple' => 'http://(a|b|c).tile.cloudmade.com/<yourapikey>/27911/256',	// e.g.  http://a.tile.opencyclemap.org/cycle/18/128676/81699.png
+);
+
+# Other parameters
+$expiryDays = 14;
+$garbageCollection1In = 100000;
+
+?>
