@@ -31,5 +31,8 @@
 	
 	# Set a low-bandwidth error message for 404
 	ErrorDocument 404 "404 Resource not found"
+	
+	# Allow cross-site HTTP requests
+	Header set Access-Control-Allow-Origin "*"
 
 </VirtualHost>

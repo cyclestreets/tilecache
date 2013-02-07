@@ -35,6 +35,9 @@ if (!$binary = @file_get_contents ($url)) {		// Error 404 or empty file
 header ('Expires: ' . gmdate ('D, d M Y H:i:s', strtotime ("+{$expiryDays} days")) . ' GMT');
 header ('Last-Modified: ' . gmdate ('D, d M Y H:i:s'));
 
+# Allow cross-site HTTP requests
+header ('Access-Control-Allow-Origin: *');
+
 # Serve the file
 header ('Content-Type: image/png');
 echo $binary;
