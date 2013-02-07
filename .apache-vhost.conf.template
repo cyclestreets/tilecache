@@ -30,6 +30,6 @@
 	php_value default_socket_timeout 5
 	
 	# Set a low-bandwidth error message for 404
-	ErrorDocument 404 "404 Page not found"
+	ErrorDocument 404 "404 Resource not found"
 
 </VirtualHost>
