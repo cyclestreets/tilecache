@@ -55,6 +55,10 @@ function getTileWithRetries ($layers, $layer, $location)
 	# Try once more if the first attempt failed
 	if ($binary = getTile ($layers, $layer, $location)) {return $binary;}
 	
+	# Try the first tileserver if the requested layer failed
+	$fallbackLayer = key ($layers);
+	if ($binary = getTile ($layers, $fallbackLayer, $location)) {return $binary;}
+	
 	# All attempts have failed
 	return false;
 }
