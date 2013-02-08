@@ -16,20 +16,51 @@ foreach ($parameters as $parameter) {
 	${$parameter} = $_GET[$parameter];
 }
 
-# Define the tileserver URL
-$tileserver = $layers[$layer];
-$serverLetter = chr (97 + rand (0,2));	// i.e. a, b, or c
-$tileserver = str_replace ('(a|b|c)', $serverLetter, $tileserver);
-
-# Get the tile
+# Define the location
 $path = '/' . $z . '/' . $x . '/';
 $location = $path . $y . '.png';
-$url = $tileserver . $location;
+
+# Set a user-agent so that tile providers know who we are
 ini_set ('user_agent', $userAgent);
-if (!$binary = @file_get_contents ($url)) {		// Error 404 or empty file
-	error_log ("Remote tile failed {$url}");
+
+# Define a function for getting the tileserver URL for a specified layer
+function getTileserverUrl ($layers, $layer)
+{
+	$tileserver = $layers[$layer];
+	$serverLetter = chr (97 + rand (0,2));	// i.e. a, b, or c
+	$tileserver = str_replace ('(a|b|c)', $serverLetter, $tileserver);
+	return $tileserver;
+}
+
+# Define a function for getting a tile
+function getTile ($layers, $layer, $location)
+{
+	# Define the tileserver URL
+	$tileserver = getTileserverUrl ($layers, $layer);
+	
+	$url = $tileserver . $location;
+	if (!$binary = @file_get_contents ($url)) {		// Error 404 or empty file
+		error_log ("Remote tile failed {$url}");
+		return false;
+	}
+	return $binary;
+}
+
+# Define a function for multiple tries of getting a tile
+function getTileWithRetries ($layers, $layer, $location)
+{
+	# Get the tile
+	if ($binary = getTile ($layers, $layer, $location)) {return $binary;}
+	
+	# Try once more if the first attempt failed
+	if ($binary = getTile ($layers, $layer, $location)) {return $binary;}
+	
+	# All attempts have failed
 	return false;
 }
+
+# Get the tile
+if (!$binary = getTileWithRetries ($layers, $layer, $location)) {return false;}
 
 # Send cache headers; see https://developers.google.com/speed/docs/best-practices/caching
 header ('Expires: ' . gmdate ('D, d M Y H:i:s', strtotime ("+{$expiryDays} days")) . ' GMT');
