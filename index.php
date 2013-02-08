@@ -64,17 +64,26 @@ function getTileWithRetries ($layers, $layer, $location)
 }
 
 # Get the tile
-if (!$binary = getTileWithRetries ($layers, $layer, $location)) {return false;}
+$binary = getTileWithRetries ($layers, $layer, $location);
+
+# Allow cross-site HTTP requests
+header ('Access-Control-Allow-Origin: *');
+
+# Send the PNG header
+header ('Content-Type: image/png');
+
+# If no tile was retrieved, serve the null tile and end at this point
+if (!$binary) {
+	$binary = file_get_contents ('./nulltile.png');
+	echo $binary;
+	return;
+}
 
 # Send cache headers; see https://developers.google.com/speed/docs/best-practices/caching
 header ('Expires: ' . gmdate ('D, d M Y H:i:s', strtotime ("+{$expiryDays} days")) . ' GMT');
 header ('Last-Modified: ' . gmdate ('D, d M Y H:i:s'));
 
-# Allow cross-site HTTP requests
-header ('Access-Control-Allow-Origin: *');
-
 # Serve the file
-header ('Content-Type: image/png');
 echo $binary;
 
 # Ensure the cache is writable
