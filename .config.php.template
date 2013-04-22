@@ -10,5 +10,4 @@ $layers = array (
 
 # Other parameters
 $expiryDays = 14;
-$garbageCollection1In = 100000;
 $userAgent = "CycleStreets tilecache at http://{$_SERVER['SERVER_NAME']}/ Contact: http://www.cyclestreets.net/contacts/";

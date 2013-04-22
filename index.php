@@ -109,8 +109,15 @@ if (!is_writable ($directory)) {
 $file = $cache . $layer . $location;
 file_put_contents ($file, $binary);
 
-# If the hour is 3am a clean out of old tiles may be triggered
-if (date('G') == 3 && rand (1, $garbageCollection1In) == 1) {
+# File used to schedule next clearout, so they are limited to once per day
+$touchFile = $cache . 'nextclearout.touch';
+
+# If the hour is 3am a clean out of old tiles is triggered once
+if (date('G') == 3 && (!file_exists ($touchFile) || time () > filemtime ($touchFile))) {
+
+	// Update the next clearout time to tomorrow
+	touch ($touchFile, time () + 24 * 3600);
+
 	// A test of this on 22 Apr 2013 03:12:11 took five minutes to complete
 	error_log ('Starting tile clearance');
 	$command = "find {$_SERVER['DOCUMENT_ROOT']} -name '.png' -mtime +{$expiryDays} -exec rm -f {} \;";
