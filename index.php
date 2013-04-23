@@ -112,8 +112,8 @@ file_put_contents ($file, $binary);
 # File used to schedule next clearout, so they are limited to once per day
 $touchFile = $cache . 'nextclearout.touch';
 
-# If the hour is 3am a clean out of old tiles is triggered once
-if (date('G') == 3 && (!file_exists ($touchFile) || time () > filemtime ($touchFile))) {
+# At the garbage collection hour a clean out of old tiles is triggered once
+if (date('G') == $garabageCollectionHour && (!file_exists ($touchFile) || time () > filemtime ($touchFile))) {
 
 	// Update the next clearout time to tomorrow
 	touch ($touchFile, time () + 24 * 3600);
