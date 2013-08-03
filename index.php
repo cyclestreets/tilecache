@@ -112,22 +112,27 @@ file_put_contents ($file, $binary);
 # File used to schedule next clearout, so they are limited to once per day
 $touchFile = $cache . 'nextclearout.touch';
 
-// Short wait before testing whether to start the garbage collection to avoid multiple occurrences
-sleep(10);
-
 # At the garbage collection hour a clean out of old tiles is triggered once
 if (date('G') == $garabageCollectionHour && (!file_exists ($touchFile) || time () > filemtime ($touchFile))) {
 
-	// Update the next clearout time to tomorrow
-	touch ($touchFile, time () + 24 * 3600);
+	// Short wait before rechecking whether to start the garbage collection,
+	// avoids multiple occurrences by allowing other invocations time to touch the file
+	sleep (1);
+	
+	// Recheck
+	if (!file_exists ($touchFile) || time () > filemtime ($touchFile)) {
+		
+		// Update the next clearout time to tomorrow
+		touch ($touchFile, time () + 24 * 3600);
 
-	// Command to clear out the tiles
-	$command = "find {$_SERVER['DOCUMENT_ROOT']} -type f -name '*.png' -mtime +{$expiryDays} -exec rm -f {} \;";
-	error_log ('Starting tile clearance:' . $command);
+		// Command to clear out the tiles
+		$command = "find {$_SERVER['DOCUMENT_ROOT']} -type f -name '*.png' -mtime +{$expiryDays} -exec rm -f {} \;";
+		error_log ('Starting tile clearance:' . $command);
 
-	// A test of this on 22 Apr 2013 03:12:11 took five minutes to complete
-	$lastLine = exec ($command);
-	error_log ("Completed tile clearance: {$lastLine}");
+		// A test of this on 22 Apr 2013 03:12:11 took five minutes to complete
+		$lastLine = exec ($command);
+		error_log ("Completed tile clearance: {$lastLine}");
+	}
 }
 
 # End of file
