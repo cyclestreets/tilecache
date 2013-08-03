@@ -120,7 +120,7 @@ if (date('G') == $garabageCollectionHour && (!file_exists ($touchFile) || time (
 
 	// A test of this on 22 Apr 2013 03:12:11 took five minutes to complete
 	error_log ('Starting tile clearance');
-	$command = "find {$_SERVER['DOCUMENT_ROOT']} -name '.png' -mtime +{$expiryDays} -exec rm -f {} \;";
+	$command = "find {$_SERVER['DOCUMENT_ROOT']} -type f -name '*.png' -mtime +{$expiryDays} -exec rm -f {} \;";
 	$lastLine = exec ($command);
 	error_log ("Completed tile clearance: {$lastLine}");
 }
