@@ -125,8 +125,8 @@ if (date('G') == $garabageCollectionHour && (!file_exists ($touchFile) || time (
 		// Update the next clearout time to tomorrow
 		touch ($touchFile, time () + 24 * 3600);
 
-		// Command to clear out the tiles
-		$command = "find {$_SERVER['DOCUMENT_ROOT']} -type f -name '*.png' -mtime +{$expiryDays} -exec rm -f {} \;";
+		// Command to clear out the tiles from subfolders
+		$command = "find {$_SERVER['DOCUMENT_ROOT']} -mindepth 2 -type f -name '*.png' -mtime +{$expiryDays} -exec rm -f {} \;";
 		error_log ('Starting tile clearance:' . $command);
 
 		// A test of this on 22 Apr 2013 03:12:11 took five minutes to complete
