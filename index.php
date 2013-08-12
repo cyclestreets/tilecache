@@ -117,7 +117,7 @@ if (date('G') == $garabageCollectionHour && (!file_exists ($touchFile) || time (
 
 	// Short wait before rechecking whether to start the garbage collection,
 	// avoids multiple occurrences by allowing other invocations time to touch the file
-	sleep (1);
+	sleep (12);
 	
 	// Recheck
 	if (!file_exists ($touchFile) || time () > filemtime ($touchFile)) {
@@ -132,6 +132,9 @@ if (date('G') == $garabageCollectionHour && (!file_exists ($touchFile) || time (
 		// A test of this on 22 Apr 2013 03:12:11 took five minutes to complete
 		$lastLine = exec ($command);
 		error_log ("Completed tile clearance: {$lastLine}");
+	} else {
+		// Output to check if this ever happens
+		error_log ('Avoided duplicate garbage collection');
 	}
 }
 
