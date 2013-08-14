@@ -115,10 +115,9 @@ $touchFile = $cache . 'nextclearout.touch';
 # At the garbage collection hour a clean out of old tiles is triggered once
 if (date('G') == $garabageCollectionHour && (!file_exists ($touchFile) || time () > filemtime ($touchFile))) {
 
-	// Short wait before rechecking whether to start the garbage collection,
-	// avoids multiple occurrences by allowing other invocations time to touch the file
-	sleep (12);
-	
+	// !! Despite this extra check multiple invocations do still occur - even if there's a short sleep.
+	// A stronger way of locking is required.
+
 	// Recheck
 	if (!file_exists ($touchFile) || time () > filemtime ($touchFile)) {
 		
