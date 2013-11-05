@@ -29,6 +29,9 @@
 	# Allow only a short time for upstream tile retrieval
 	php_value default_socket_timeout 5
 	
+	# Explicitly set the timezone, a requirement of PHP 5.3+
+	php_value date.timezone 'Europe/London'
+
 	# Set a low-bandwidth error message for 404
 	ErrorDocument 404 "404 Resource not found"
 	
