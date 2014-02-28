@@ -47,7 +47,7 @@ function getTile ($layers, $layer, $location)
 }
 
 # Define a function for multiple tries of getting a tile
-function getTileWithRetries ($layers, $layer, $location)
+function getTileWithRetries ($layers, &$layer, $location)
 {
 	# Get the tile
 	if ($binary = getTile ($layers, $layer, $location)) {return $binary;}
@@ -57,7 +57,10 @@ function getTileWithRetries ($layers, $layer, $location)
 	
 	# Try the first tileserver if the requested layer failed
 	$fallbackLayer = key ($layers);
-	if ($binary = getTile ($layers, $fallbackLayer, $location)) {return $binary;}
+	if ($binary = getTile ($layers, $fallbackLayer, $location)) {
+		$layer = $fallbackLayer;	// Cache fallback tiles in the fallback layer's own cache directory, not the originally-requested layer's cache
+		return $binary;
+	}
 	
 	# All attempts have failed
 	return false;
