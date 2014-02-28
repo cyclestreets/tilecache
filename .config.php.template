@@ -19,3 +19,8 @@ $garabageCollectionHour = 3;
 
 # User agent
 $userAgent = "CycleStreets tilecache at http://{$_SERVER['SERVER_NAME']}/ Contact: http://www.cyclestreets.net/contacts/";
+
+# Fallback handling - if omitted, the first $layer will be used
+$fallback = array (
+        // 'from' => 'to',
+);

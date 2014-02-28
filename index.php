@@ -47,7 +47,7 @@ function getTile ($layers, $layer, $location)
 }
 
 # Define a function for multiple tries of getting a tile
-function getTileWithRetries ($layers, &$layer, $location)
+function getTileWithRetries ($layers, &$layer, $location, $fallback)
 {
 	# Get the tile
 	if ($binary = getTile ($layers, $layer, $location)) {return $binary;}
@@ -55,8 +55,10 @@ function getTileWithRetries ($layers, &$layer, $location)
 	# Try once more if the first attempt failed
 	if ($binary = getTile ($layers, $layer, $location)) {return $binary;}
 	
-	# Try the first tileserver if the requested layer failed
-	$fallbackLayer = key ($layers);
+	# Determine the fallback layer; use specified if present, otherwise use the first layer
+	$fallbackLayer = (isSet ($fallback[$layer]) ? $fallback[$layer] : key ($layers));
+	
+	# Try the fallback layer if the requested layer failed
 	if ($binary = getTile ($layers, $fallbackLayer, $location)) {
 		$layer = $fallbackLayer;	// Cache fallback tiles in the fallback layer's own cache directory, not the originally-requested layer's cache
 		return $binary;
@@ -67,7 +69,7 @@ function getTileWithRetries ($layers, &$layer, $location)
 }
 
 # Get the tile
-$binary = getTileWithRetries ($layers, $layer, $location);
+$binary = getTileWithRetries ($layers, $layer, $location, $fallback);
 
 # Allow cross-site HTTP requests
 header ('Access-Control-Allow-Origin: *');
