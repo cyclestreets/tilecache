@@ -7,9 +7,6 @@ $layers = array (
 	'outdoors' => 'http://(a|b|c).tile.opencyclemap.org/outdoors',					// e.g. http://a.tile.opencyclemap.org/outdoors/18/128676/81699.png
 	'osopendata' => 'http://(a|b|c).os.openstreetmap.org/sv',					// e.g. http://a.os.openstreetmap.org/sv/18/128676/81699.png
 	'cyclestreets' => 'http://www.cyclestreets.net/tiles/cyclestreets',                             // e.g. http://www.cyclestreets.net/tiles/cyclestreets/16/32792/21588.png
-
-	// Deprecated
-	'simple' => 'http://(a|b|c).tile.cloudmade.com/<cloudmadekey>/27911/256',			// e.g. http://a.tile.cloudmade.com/<cloudmadekey>/997/256/18/128676/81699.png
 );
 
 ## Other parameters
