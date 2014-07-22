@@ -136,7 +136,17 @@ if (date('G') == $garabageCollectionHour && (!file_exists ($touchFile) || time (
 		// A test of this on 22 Apr 2013 03:12:11 took five minutes to complete
 		$lastLine = exec ($command);
 		error_log ("Completed tile clearance: {$lastLine}");
+
+		// Remove all empty folders
+		$command = "find {$_SERVER['DOCUMENT_ROOT']} -type d -empty -exec rmdir {} \;";
+		error_log ('Starting empty folder clearance:' . $command);
+
+		// Run
+		$lastLine = exec ($command);
+		error_log ("Completed empty folder clearance: {$lastLine}");
+
 	} else {
+
 		// Output to check if this ever happens
 		error_log ('Avoided duplicate garbage collection');
 	}
