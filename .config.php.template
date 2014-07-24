@@ -6,7 +6,9 @@ $layers = array (
 	'opencyclemap' => 'http://(a|b|c).tile.opencyclemap.org/cycle',		// e.g. http://a.tile.opencyclemap.org/cycle/18/128676/81699.png
 	'outdoors' => 'http://(a|b|c).tile.opencyclemap.org/outdoors',		// e.g. http://a.tile.opencyclemap.org/outdoors/18/128676/81699.png
 	'osopendata' => 'http://os.openstreetmap.org/sv',			// e.g. http://os.openstreetmap.org/sv/18/128676/81699.png
-	'cyclestreets' => 'http://www.cyclestreets.net/tiles/cyclestreets',	// e.g. http://www.cyclestreets.net/tiles/cyclestreets/16/32792/21588.png
+
+	// Use your cyclestreets server here as an alternative to localhost
+	// 'cyclestreets' => 'http://localhost/tiles/cyclestreets',	// e.g. http://localhost/tiles/cyclestreets/16/32792/21588.png
 );
 
 ## Other parameters
