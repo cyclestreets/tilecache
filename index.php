@@ -29,6 +29,7 @@ function getTileserverUrl ($layers, $layer)
 	$tileserver = $layers[$layer];
 	$serverLetter = chr (97 + rand (0,2));	// i.e. a, b, or c
 	$tileserver = str_replace ('(a|b|c)', $serverLetter, $tileserver);
+	$tileserver = str_replace ('{s}', $serverLetter, $tileserver);
 	return $tileserver;
 }
 
