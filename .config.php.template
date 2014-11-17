@@ -26,3 +26,6 @@ $userAgent = "CycleStreets tilecache at http://{$_SERVER['SERVER_NAME']}/ Contac
 $fallback = array (
         // 'from' => 'to',
 );
+
+# Supported scales
+$scales = array (1, 1.5, 2, );

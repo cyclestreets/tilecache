@@ -16,6 +16,30 @@ foreach ($parameters as $parameter) {
 	${$parameter} = $_GET[$parameter];
 }
 
+# If a scale is defined, ensure it is supported
+$scale = false;
+if (isSet ($_GET['scale'])) {
+	
+	# Ensure that image resizing is supported on the server
+	if (!extension_loaded ('imagick')) {
+		error404 ();	// Should probably technically be 500
+		return false;
+	}
+	
+	# Cast the defined scales for strict matching
+	foreach ($scales as $index => $scale) {
+		if ($scale == 1) {unset ($scales[$index]); continue;}	// Disallow URL @1x.png
+		$scales[$index] = (string) $scale;
+	}
+	
+	# Ensure the scale is supported
+	if (!in_array ($_GET['scale'], $scales, true)) {	// Strict matching so that e.g. 1.50 does not match permitted 1.5
+		error404 ('Unsupported scale parameter in URL');
+		return false;
+	}
+	$scale = $_GET['scale'];
+}
+
 # Define the location
 $path = '/' . $z . '/' . $x . '/';
 $location = $path . $y . '.png';
@@ -103,6 +127,9 @@ function cacheTile ($binary, $layer, $path, $location)
 	# Save the file to disk
 	$file = $cache . $layer . $location;
 	file_put_contents ($file, $binary);
+	
+	# Signal success by returning the filename
+	return $file;
 }
 
 # Get the tile
@@ -121,15 +148,29 @@ if (!$binary) {
 	return;
 }
 
+# Cache (write) the tile to disk
+if (!$file = cacheTile ($binary, $layer, $path, $location)) {
+	return false;
+}
+
+# If a scale is defined, scale up the tile and cache the upscaled tile
+if ($scale) {
+	$originalSize = 256;	// Original tiles assumed always to be 256
+	$scaledSize = $originalSize * $scale;	// e.g. 512 for 2x
+	$scaledFile = preg_replace ('/.png$/', "@{$scale}x.png", $file);
+	$scaledImage = new Imagick ($file);
+	//$scaledImage->resizeImage ($scaledSize, $scaledSize, imagick::FILTER_LANCZOS, 1);
+	$scaledImage->scaleImage ($scaledSize, $scaledSize);
+	$scaledImage->writeImage ($scaledFile);
+	$binary = file_get_contents ($scaledFile);
+}
+
 # Send cache headers; see https://developers.google.com/speed/docs/best-practices/caching
 header ('Expires: ' . gmdate ('D, d M Y H:i:s', strtotime ("+{$expiryDays} days")) . ' GMT');
 header ('Last-Modified: ' . gmdate ('D, d M Y H:i:s'));
 
 # Serve the file
 echo $binary;
-
-# Cache (write) the tile to disk
-cacheTile ($binary, $layer, $path, $location);
 
 # Define the file used to schedule next clearout, so they are limited to once per day
 $touchFile = $cache . 'nextclearout.touch';

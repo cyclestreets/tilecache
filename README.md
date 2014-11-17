@@ -14,3 +14,6 @@ chown www-data .
 # Group writable so that updating will work
 chmod g+w .
 ```
+
+If using scaling, ensure the PHP imagick extension is loaded.
+
