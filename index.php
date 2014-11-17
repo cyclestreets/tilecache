@@ -69,6 +69,33 @@ function getTileWithRetries ($layers, &$layer, $location, $fallback)
 	return false;
 }
 
+# Function to cache (write) a tile to disk
+function cacheTile ($binary, $layer, $path, $location)
+{
+	# Ensure the cache is writable
+	$cache = $_SERVER['DOCUMENT_ROOT'] . '/';
+	if (!is_writable ($cache)) {
+		error_log ("Cannot write to cache $cache");
+		return false;
+	}
+	
+	# Ensure the directory for the file exists
+	$directory = $cache . $layer . $path;
+	if (!is_dir ($directory)) {
+		mkdir ($directory, 0777, true);
+	}
+	
+	# Ensure the directory is writable
+	if (!is_writable ($directory)) {
+		error_log ("Cannot write file to directory $directory");
+		return false;
+	}
+	
+	# Save the file to disk
+	$file = $cache . $layer . $location;
+	file_put_contents ($file, $binary);
+}
+
 # Get the tile
 $binary = getTileWithRetries ($layers, $layer, $location, $fallback);
 
@@ -92,30 +119,10 @@ header ('Last-Modified: ' . gmdate ('D, d M Y H:i:s'));
 # Serve the file
 echo $binary;
 
-# Ensure the cache is writable
-$cache = $_SERVER['DOCUMENT_ROOT'] . '/';
-if (!is_writable ($cache)) {
-	error_log ("Cannot write to cache $cache");
-	return false;
-}
+# Cache (write) the tile to disk
+cacheTile ($binary, $layer, $path, $location);
 
-# Ensure the directory for the file exists
-$directory = $cache . $layer . $path;
-if (!is_dir ($directory)) {
-	mkdir ($directory, 0777, true);
-}
-
-# Ensure the directory is writable
-if (!is_writable ($directory)) {
-	error_log ("Cannot write file to directory $directory");
-	return false;
-}
-
-# Save the file to disk
-$file = $cache . $layer . $location;
-file_put_contents ($file, $binary);
-
-# File used to schedule next clearout, so they are limited to once per day
+# Define the file used to schedule next clearout, so they are limited to once per day
 $touchFile = $cache . 'nextclearout.touch';
 
 # At the garbage collection hour a clean out of old tiles is triggered once
