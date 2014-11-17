@@ -23,6 +23,15 @@ $location = $path . $y . '.png';
 # Set a user-agent so that tile providers know who we are
 ini_set ('user_agent', $userAgent);
 
+# Define a function for throwing a 404
+function error404 ($message = '404 Resource not found')
+{
+	header ('HTTP/1.0 404 Not Found');
+	echo $message;
+	error_log ($message);
+	return false;
+}
+
 # Define a function for getting the tileserver URL for a specified layer
 function getTileserverUrl ($layers, $layer)
 {
