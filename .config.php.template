@@ -28,4 +28,4 @@ $fallback = array (
 );
 
 # Supported scales
-$scales = array (1, 1.5, 2, );
+$scales = array (1, 1.5, 2, 3, );
