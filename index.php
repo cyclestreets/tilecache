@@ -173,7 +173,8 @@ header ('Last-Modified: ' . gmdate ('D, d M Y H:i:s'));
 echo $binary;
 
 # Define the file used to schedule next clearout, so they are limited to once per day
-$touchFile = $cache . 'nextclearout.touch';
+# !! $cache should be used here but has become encapsulated within cacheTile() so this is a temp fix.
+$touchFile = $_SERVER['DOCUMENT_ROOT'] . '/' . 'nextclearout.touch';
 
 # At the garbage collection hour a clean out of old tiles is triggered once
 if (date('G') == $garabageCollectionHour && (!file_exists ($touchFile) || time () > filemtime ($touchFile))) {
