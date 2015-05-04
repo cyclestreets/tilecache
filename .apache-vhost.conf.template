@@ -39,4 +39,12 @@
 	# Allow cross-site HTTP requests
 	Header set Access-Control-Allow-Origin "*"
 
+        # Certificates
+	# If using ssl on site the path to the certificates should be set in this section
+        # http://billpatrianakos.me/blog/2014/04/04/installing-comodo-positive-ssl-certs-on-apache-and-openssl/
+#        SSLEngine on
+#        SSLCertificateFile      /path/to/sslcerts/your_website.crt
+#        SSLCertificateKeyFile   /path/to/sslcerts/your_website.key
+#        SSLCACertificateFile    /path/to/sslcerts/your_website.cer
+
 </VirtualHost>
