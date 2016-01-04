@@ -16,15 +16,10 @@ foreach ($parameters as $parameter) {
 	${$parameter} = $_GET[$parameter];
 }
 
-# If a scale is defined, ensure it is supported
-$scale = false;
+# If a scale is defined, ensure it is supported, either as a native retina tile or a supported upscaling factor
+$retinaNative = false;
+$upscale = false;
 if (isSet ($_GET['scale'])) {
-	
-	# Ensure that image resizing is supported on the server
-	if (!extension_loaded ('imagick')) {
-		error404 ();	// Should probably technically be 500
-		return false;
-	}
 	
 	# Cast the defined scales for strict matching
 	foreach ($scales as $index => $scale) {
@@ -38,11 +33,30 @@ if (isSet ($_GET['scale'])) {
 		return false;
 	}
 	$scale = $_GET['scale'];
+	
+	# Determine if the server for this layer supports native retina tiles
+	if ($scale != 1) {
+		$upscale = $scale;	// Assume upscaling by default
+		if (isSet ($nativeRetinaTiles[$layer])) {
+			if (in_array ($scale, $nativeRetinaTiles[$layer])) {
+				$retinaNative = $scale;
+				$upscale = false;		// Avoid later auto-upscaling
+			}
+		}
+	}
+	
+	# If using upscaling, ensure that image resizing is supported on the server
+	if ($upscale) {
+		if (!extension_loaded ('imagick')) {
+			error404 ();	// Should probably technically be 500
+			return false;
+		}
+	}
 }
 
 # Define the location
 $path = '/' . $z . '/' . $x . '/';
-$location = $path . $y . '.png';
+$location = $path . $y . ($retinaNative ? "@{$retinaNative}x" : '') . '.png';
 
 # Set a user-agent so that tile providers know who we are
 ini_set ('user_agent', $userAgent);
@@ -153,11 +167,11 @@ if (!$file = cacheTile ($binary, $layer, $path, $location)) {
 	return false;
 }
 
-# If a scale is defined, scale up the tile and cache the upscaled tile
-if ($scale) {
+# If upscaling is required, scale up the tile and cache the upscaled tile
+if ($upscale) {
 	$originalSize = 256;	// Original tiles assumed always to be 256
-	$scaledSize = $originalSize * $scale;	// e.g. 512 for 2x
-	$scaledFile = preg_replace ('/.png$/', "@{$scale}x.png", $file);
+	$scaledSize = $originalSize * $upscale;	// e.g. 512 for 2x
+	$scaledFile = preg_replace ('/.png$/', "@{$upscale}x.png", $file);
 	$scaledImage = new Imagick ($file);
 	//$scaledImage->resizeImage ($scaledSize, $scaledSize, imagick::FILTER_LANCZOS, 1);
 	$scaledImage->scaleImage ($scaledSize, $scaledSize);
