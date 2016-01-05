@@ -81,6 +81,7 @@ function getTileserverUrl ($layers, $layer)
 }
 
 # Define a function for getting a tile
+# NB This function only needs to deal with retrieval from an external source - locally-cached tiles are served by Apache natively
 function getTile ($layers, $layer, $location)
 {
 	# Define the tileserver URL
