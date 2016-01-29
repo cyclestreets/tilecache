@@ -27,6 +27,9 @@ $fallback = array (
         // 'from' => 'to',
 );
 
+# Timeout for tile requests before fallback is tried
+$timeout = 10;
+
 # Supported scales
 $scales = array (1, 1.5, 2, 3, );
 

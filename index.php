@@ -3,6 +3,9 @@
 # Load the settings
 require_once ('./.config.php');
 
+# Set request timeout
+ini_set ('default_socket_timeout', $timeout);
+
 # Ensure the layer is supported
 if (!isSet ($_GET['layer'])) {return false;}
 if (!isSet ($layers[$_GET['layer']])) {return false;}
