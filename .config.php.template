@@ -38,3 +38,11 @@ $nativeRetinaTiles = array (
 	'opencyclemap' => array (2, ),	// e.g. https://a.tile.thunderforest.com/cycle/18/128676/81699@2x.png
 	'outdoors' => array (2, ),	// e.g. https://a.tile.thunderforest.com/outdoors/18/128676/81699@2x.png
 );
+
+# API key parameters
+$thunderforestApiKeyString = 'apikey=' . 'YOUR_API_KEY';
+$apiKeyParameters = array (
+	'opencyclemap' => $thunderforestApiKeyString,
+	'outdoors' => $thunderforestApiKeyString,
+);
+

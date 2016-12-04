@@ -85,12 +85,15 @@ function getTileserverUrl ($layers, $layer)
 
 # Define a function for getting a tile
 # NB This function only needs to deal with retrieval from an external source - locally-cached tiles are served by Apache natively
-function getTile ($layers, $layer, $location)
+function getTile ($layers, $layer, $location, $apiKeyParameters)
 {
 	# Define the tileserver URL
 	$tileserver = getTileserverUrl ($layers, $layer);
 	
-	$url = $tileserver . $location;
+	# Determine if an API key parameter is required for this layer
+	$apiKeyParameter = (isSet ($apiKeyParameters[$layer]) ? $apiKeyParameters[$layer] : false);
+	
+	$url = $tileserver . $location . ($apiKeyParameter ? '?' . $apiKeyParameter : '');
 	if (!$binary = @file_get_contents ($url)) {		// Error 404 or empty file
 		error_log ("Remote tile failed {$url}");
 		return false;
@@ -99,19 +102,19 @@ function getTile ($layers, $layer, $location)
 }
 
 # Define a function for multiple tries of getting a tile
-function getTileWithRetries ($layers, &$layer, $location, $fallback)
+function getTileWithRetries ($layers, &$layer, $location, $apiKeyParameters, $fallback)
 {
 	# Get the tile
-	if ($binary = getTile ($layers, $layer, $location)) {return $binary;}
+	if ($binary = getTile ($layers, $layer, $location, $apiKeyParameters)) {return $binary;}
 	
 	# Try once more if the first attempt failed
-	if ($binary = getTile ($layers, $layer, $location)) {return $binary;}
+	if ($binary = getTile ($layers, $layer, $location, $apiKeyParameters)) {return $binary;}
 	
 	# Determine the fallback layer; use specified if present, otherwise use the first layer
 	$fallbackLayer = (isSet ($fallback[$layer]) ? $fallback[$layer] : key ($layers));
 	
 	# Try the fallback layer if the requested layer failed
-	if ($binary = getTile ($layers, $fallbackLayer, $location)) {
+	if ($binary = getTile ($layers, $fallbackLayer, $location, $apiKeyParameters)) {
 		$layer = $fallbackLayer;	// Cache fallback tiles in the fallback layer's own cache directory, not the originally-requested layer's cache
 		return $binary;
 	}
@@ -151,7 +154,7 @@ function cacheTile ($binary, $layer, $path, $location)
 }
 
 # Get the tile
-$binary = getTileWithRetries ($layers, $layer, $location, $fallback);
+$binary = getTileWithRetries ($layers, $layer, $location, $apiKeyParameters, $fallback);
 
 # Allow cross-site HTTP requests
 header ('Access-Control-Allow-Origin: *');
