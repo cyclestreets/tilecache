@@ -3,8 +3,8 @@
 # Define supported layers, the first being a fallback
 $layers = array (
 	'mapnik' => 'http://(a|b|c).tile.openstreetmap.org',			// e.g. http://a.tile.openstreetmap.org/16/32752/21788.png
-	'opencyclemap' => 'http://(a|b|c).tile.thunderforest.com/cycle',		// e.g. http://a.tile.thunderforest.com/cycle/18/128676/81699.png
-	'outdoors' => 'http://(a|b|c).tile.thunderforest.com/outdoors',		// e.g. http://a.tile.thunderforest.com/outdoors/18/128676/81699.png
+	'opencyclemap' => 'https://(a|b|c).tile.thunderforest.com/cycle',		// e.g. https://a.tile.thunderforest.com/cycle/18/128676/81699.png
+	'outdoors' => 'https://(a|b|c).tile.thunderforest.com/outdoors',		// e.g. https://a.tile.thunderforest.com/outdoors/18/128676/81699.png
 	'osopendata' => 'http://os.openstreetmap.org/sv',			// e.g. http://os.openstreetmap.org/sv/18/128676/81699.png
 
 	// Use your cyclestreets server here as an alternative to localhost
@@ -35,6 +35,6 @@ $scales = array (1, 1.5, 2, 3, );
 
 # Servers supporting native retina tiles
 $nativeRetinaTiles = array (
-	'opencyclemap' => array (2, ),	// e.g. http://a.tile.thunderforest.com/cycle/18/128676/81699@2x.png
-	'outdoors' => array (2, ),	// e.g. http://a.tile.thunderforest.com/outdoors/18/128676/81699@2x.png
+	'opencyclemap' => array (2, ),	// e.g. https://a.tile.thunderforest.com/cycle/18/128676/81699@2x.png
+	'outdoors' => array (2, ),	// e.g. https://a.tile.thunderforest.com/outdoors/18/128676/81699@2x.png
 );
