@@ -2,13 +2,13 @@
 
 # Define supported layers, the first being a fallback
 $layers = array (
-	'mapnik' => 'http://{s}.tile.openstreetmap.org',			// e.g. http://a.tile.openstreetmap.org/16/32752/21788.png
-	'opencyclemap' => 'https://{s}.tile.thunderforest.com/cycle',		// e.g. https://a.tile.thunderforest.com/cycle/18/128676/81699.png
-	'outdoors' => 'https://{s}.tile.thunderforest.com/outdoors',		// e.g. https://a.tile.thunderforest.com/outdoors/18/128676/81699.png
-	'osopendata' => 'http://os.openstreetmap.org/sv',			// e.g. http://os.openstreetmap.org/sv/18/128676/81699.png
+	'mapnik'	=> 'http://{s}.tile.openstreetmap.org',			// e.g. http://a.tile.openstreetmap.org/16/32752/21788.png
+	'opencyclemap'	=> 'https://{s}.tile.thunderforest.com/cycle',		// e.g. https://a.tile.thunderforest.com/cycle/18/128676/81699.png
+	'outdoors'	=> 'https://{s}.tile.thunderforest.com/outdoors',	// e.g. https://a.tile.thunderforest.com/outdoors/18/128676/81699.png
+	'osopendata'	=> 'http://os.openstreetmap.org/sv',			// e.g. http://os.openstreetmap.org/sv/18/128676/81699.png
 
 	// Use your cyclestreets server here as an alternative to localhost
-	// 'cyclestreets' => 'http://localhost/tiles/cyclestreets',	// e.g. http://localhost/tiles/cyclestreets/16/32792/21588.png
+	// 'cyclestreets' => 'http://localhost/tiles/cyclestreets',		// e.g. http://localhost/tiles/cyclestreets/16/32792/21588.png
 );
 
 ## Other parameters
@@ -35,14 +35,14 @@ $scales = array (1, 1.5, 2, 3, );
 
 # Servers supporting native retina tiles
 $nativeRetinaTiles = array (
-	'opencyclemap' => array (2, ),	// e.g. https://a.tile.thunderforest.com/cycle/18/128676/81699@2x.png
-	'outdoors' => array (2, ),	// e.g. https://a.tile.thunderforest.com/outdoors/18/128676/81699@2x.png
+	'opencyclemap'	=> array (2, ),	// e.g. https://a.tile.thunderforest.com/cycle/18/128676/81699@2x.png
+	'outdoors'	=> array (2, ),	// e.g. https://a.tile.thunderforest.com/outdoors/18/128676/81699@2x.png
 );
 
 # API key parameters
 $thunderforestApiKeyString = 'apikey=' . 'YOUR_API_KEY';
 $apiKeyParameters = array (
-	'opencyclemap' => $thunderforestApiKeyString,
-	'outdoors' => $thunderforestApiKeyString,
+	'opencyclemap'	=> $thunderforestApiKeyString,
+	'outdoors'	=> $thunderforestApiKeyString,
 );
 
