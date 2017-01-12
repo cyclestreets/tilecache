@@ -11,6 +11,11 @@
         # Where the files are
         DocumentRoot /var/www/tile/
 	
+	# Allow access
+	<Location />
+		Require all granted
+	</Location>
+	
 	# Enable PHP
 	AddType application/x-httpd-php .php
 	php_value display_errors 0
