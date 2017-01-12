@@ -5,11 +5,11 @@
 	ServerAlias a.tile.example.com b.tile.example.com c.tile.example.com
 
 	# Logging
-	CustomLog /path/to/logs/tile-access.log combined
-	ErrorLog /path/to/logs/tile-error.log
+	CustomLog /var/log/apache2/tile-access.log combined
+	ErrorLog /var/log/apache2/tile-error.log
 
         # Where the files are
-        DocumentRoot /path/to/files
+        DocumentRoot /var/www/tile/
 	
 	# Enable PHP
 	AddType application/x-httpd-php .php
@@ -39,12 +39,10 @@
 	# Allow cross-site HTTP requests
 	Header set Access-Control-Allow-Origin "*"
 
-        # Certificates
-	# If using ssl on site the path to the certificates should be set in this section
-        # http://billpatrianakos.me/blog/2014/04/04/installing-comodo-positive-ssl-certs-on-apache-and-openssl/
+        # Certificates, if using SSL
 	#SSLEngine on
-	#SSLCertificateFile      /path/to/sslcerts/your_website.crt
-	#SSLCertificateKeyFile   /path/to/sslcerts/your_website.key
-	#SSLCACertificateFile    /path/to/sslcerts/your_website.cer
+	#SSLCertificateFile      /etc/ssl/certs/tile.example.com.crt
+	#SSLCertificateKeyFile   /etc/ssl/certs/tile.example.com.key
+	##SSLCACertificateFile    /etc/ssl/certs/tile.example.com.ca-bundle
 
 </VirtualHost>
