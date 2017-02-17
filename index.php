@@ -90,10 +90,21 @@ function getTile ($layers, $layer, $location, $apiKeyParameters)
 	# Define the tileserver URL
 	$tileserver = getTileserverUrl ($layers, $layer);
 	
-	# Determine if an API key parameter is required for this layer
-	$apiKeyParameter = (isSet ($apiKeyParameters[$layer]) ? $apiKeyParameters[$layer] : false);
+	# Construct the URL
+	$url = $tileserver . $location;
 	
-	$url = $tileserver . $location . ($apiKeyParameter ? '?' . $apiKeyParameter : '');
+	# If the tileserver URL has explicit x,y,z parameter placeholders, use that instead of the standard /{z}/{x}/{y}.png layout
+	if (substr_count ($tileserver, '{x}') && substr_count ($tileserver, '{y}') && substr_count ($tileserver, '{z}')) {
+		preg_match ('|^/(.+)/(.+)/(.+)\.png$|', $location, $matches);
+		list ($all, $z, $x, $y) = $matches;
+		$url = str_replace (array ('{x}', '{y}', '{z}'), array ($x, $y, $z), $tileserver);
+	}
+	
+	# Determine if an API key parameter is required for this layer, and add the key if required
+	$apiKeyParameter = (isSet ($apiKeyParameters[$layer]) ? $apiKeyParameters[$layer] : false);
+	$url .= ($apiKeyParameter ? '?' . $apiKeyParameter : '');
+	
+	# Get the tile
 	if (!$binary = @file_get_contents ($url)) {		// Error 404 or empty file
 		error_log ("Remote tile failed {$url}");
 		return false;
