@@ -2,11 +2,11 @@
 
 # Define supported layers, the first being a fallback
 $layers = array (
-	'mapnik'	=> 'http://{s}.tile.openstreetmap.org',			// e.g. http://a.tile.openstreetmap.org/16/32752/21788.png
+	'mapnik'	=> 'https://{s}.tile.openstreetmap.org',		// e.g. https://a.tile.openstreetmap.org/16/32752/21788.png
 	'opencyclemap'	=> 'https://{s}.tile.thunderforest.com/cycle',		// e.g. https://a.tile.thunderforest.com/cycle/18/128676/81699.png
 	'outdoors'	=> 'https://{s}.tile.thunderforest.com/outdoors',	// e.g. https://a.tile.thunderforest.com/outdoors/18/128676/81699.png
-	'osopendata'	=> 'http://os.openstreetmap.org/sv',			// e.g. http://os.openstreetmap.org/sv/18/128676/81699.png
-
+	'osopendata'	=> 'https://{s}.os.openstreetmap.org/sv',		// e.g. https://a.os.openstreetmap.org/sv/18/128676/81699.png
+	
 	// Use your cyclestreets server here as an alternative to localhost
 	// 'cyclestreets' => 'http://localhost/tiles/cyclestreets',		// e.g. http://localhost/tiles/cyclestreets/16/32792/21588.png
 );
