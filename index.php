@@ -94,10 +94,10 @@ function getTile ($layers, $layer, $location, $apiKeyParameters)
 	$url = $tileserver . $location;
 	
 	# If the tileserver URL has explicit x,y,z parameter placeholders, use that instead of the standard /{z}/{x}/{y}.png layout
-	if (substr_count ($tileserver, '{x}') && substr_count ($tileserver, '{y}') && substr_count ($tileserver, '{z}')) {
+	if (substr_count ($tileserver, '{x}') && (substr_count ($tileserver, '{y}') || substr_count ($tileserver, '{-y}')) && substr_count ($tileserver, '{z}')) {
 		preg_match ('|^/(.+)/(.+)/(.+)\.png$|', $location, $matches);
 		list ($all, $z, $x, $y) = $matches;
-		$url = str_replace (array ('{x}', '{y}', '{z}'), array ($x, $y, $z), $tileserver);
+		$url = str_replace (array ('{x}', '{y}', '{-y}', '{z}'), array ($x, $y, $y, $z), $tileserver);
 	}
 	
 	# Determine if an API key parameter is required for this layer, and add the key if required
