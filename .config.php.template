@@ -17,7 +17,7 @@ $layers = array (
 $expiryDays = 14;
 
 # The hour (out of 24) in which clearout of stale tiles from the cache can be triggered
-$garabageCollectionHour = 3;
+$garbageCollectionHour = 3;
 
 # User agent
 $userAgent = "CycleStreets tilecache at http://{$_SERVER['SERVER_NAME']}/ Contact: http://www.cyclestreets.net/contacts/";

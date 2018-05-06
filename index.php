@@ -209,7 +209,7 @@ echo $binary;
 $touchFile = $_SERVER['DOCUMENT_ROOT'] . '/' . 'nextclearout.touch';
 
 # At the garbage collection hour a clean out of old tiles is triggered once
-if (date('G') == $garabageCollectionHour && (!file_exists ($touchFile) || time () > filemtime ($touchFile))) {
+if (date('G') == $garbageCollectionHour && (!file_exists ($touchFile) || time () > filemtime ($touchFile))) {
 
 	// !! Despite this extra check multiple invocations do still occur - even if there's a short sleep.
 	// A stronger way of locking is required.
