@@ -46,8 +46,8 @@
 
         # Certificates, if using SSL
 	#SSLEngine on
-	#SSLCertificateFile      /etc/ssl/certs/tile.example.com.crt
-	#SSLCertificateKeyFile   /etc/ssl/certs/tile.example.com.key
-	##SSLCACertificateFile    /etc/ssl/certs/tile.example.com.ca-bundle
+        SSLEngine on
+	#SSLCertificateFile      /etc/letsencrypt/live/tile.example.com/fullchain.pem
+	#SSLCertificateKeyFile   /etc/letsencrypt/live/tile.example.com/privkey.pem
 
 </VirtualHost>
