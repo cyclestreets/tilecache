@@ -31,6 +31,8 @@
 	RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
 	RewriteRule ^/([-a-z0-9]+)/([0-9]+)/([0-9]+)/(-?[0-9]+).png$ /index.php?action=tile&layer=$1&x=$3&y=$4&z=$2 [L,QSA]
 	RewriteRule ^/([-a-z0-9]+)/([0-9]+)/([0-9]+)/(-?[0-9]+)@([.0-9]+)x.png$ /index.php?action=tile&layer=$1&x=$3&y=$4&z=$2&scale=$5 [L,QSA]
+	RewriteRule ^/([-a-z0-9]+)/([-/a-z0-9]+)/([0-9]+)/([0-9]+)/(-?[0-9]+).png$ /index.php?action=tile&layer=$1&variant=$2&x=$4&y=$5&z=$3 [L,QSA]
+	RewriteRule ^/([-a-z0-9]+)/([-/a-z0-9]+)/([0-9]+)/([0-9]+)/(-?[0-9]+)@([.0-9]+)x.png$ /index.php?action=tile&layer=$1&variant=$2&x=$4&y=$5&z=$3&scale=$6 [L,QSA]
 	
 	# Allow only a short time for upstream tile retrieval
 	php_value default_socket_timeout 5

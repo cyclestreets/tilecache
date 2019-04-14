@@ -57,8 +57,14 @@ if (isSet ($_GET['scale'])) {
 	}
 }
 
+# If a variant is specified, prefix this
+$variant = '';
+if (isSet ($_GET['variant'])) {
+	$variant = '/' . $_GET['variant'];
+}
+
 # Define the location
-$path = '/' . $z . '/' . $x . '/';
+$path = $variant . '/' . $z . '/' . $x . '/';
 $location = $path . $y . ($retinaNative ? "@{$retinaNative}x" : '') . '.png';
 
 # Set a user-agent so that tile providers know who we are
