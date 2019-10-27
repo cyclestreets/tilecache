@@ -32,7 +32,7 @@ if (isSet ($_GET['scale'])) {
 	
 	# Ensure the scale is supported
 	if (!in_array ($_GET['scale'], $scales, true)) {	// Strict matching so that e.g. 1.50 does not match permitted 1.5
-		error404 ('Unsupported scale parameter in URL');
+		error404 ("Unsupported scale value {$_GET['scale']} in URL");
 		return false;
 	}
 	$scale = $_GET['scale'];
