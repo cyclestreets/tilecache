@@ -115,8 +115,29 @@ function getTile ($layers, $layer, $location, $apiKeyParameters)
 		error_log ("Remote tile failed {$url}");
 		return false;
 	}
+
+  if (isGzipHeaderSet(transformIntoHeaderMap($http_response_header))) {
+        $binary = gzdecode($binary);
+  }
 	return $binary;
 }
+
+function transformIntoHeaderMap(array $headers)
+{
+  $headersWithValues = array_filter($headers, function ($header) { return strpos($header, ':') !== false; });
+  $headerMap = [];
+  foreach ($headersWithValues as $header) {
+    list($key, $value) = explode(':', $header);
+    $headerMap[$key] = trim($value);
+  }
+  return $headerMap;
+}
+
+function isGzipHeaderSet(array $headerMap)
+{
+  return isset($headerMap['Content-Encoding']) && $headerMap['Content-Encoding'] == 'gzip';
+}
+
 
 # Define a function for multiple tries of getting a tile
 function getTileWithRetries ($layers, &$layer, $location, $apiKeyParameters, $fallback)
