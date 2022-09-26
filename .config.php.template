@@ -2,7 +2,7 @@
 
 # Define supported layers, the first being a fallback
 $layers = array (
-	'mapnik'	=> 'https://{s}.tile.openstreetmap.org',		// e.g. https://a.tile.openstreetmap.org/16/32752/21788.png
+	'mapnik'	=> 'https://tile.openstreetmap.org',		// e.g. https://tile.openstreetmap.org/16/32752/21788.png ; see: https://github.com/openstreetmap/operations/issues/737
 	'opencyclemap'	=> 'https://{s}.tile.thunderforest.com/cycle',		// e.g. https://a.tile.thunderforest.com/cycle/18/128676/81699.png
 	'outdoors'	=> 'https://{s}.tile.thunderforest.com/outdoors',	// e.g. https://a.tile.thunderforest.com/outdoors/18/128676/81699.png
 	'osopendata'	=> 'https://{s}.os.openstreetmap.org/sv',		// e.g. https://a.os.openstreetmap.org/sv/18/128676/81699.png
