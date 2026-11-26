@@ -20,7 +20,7 @@ $expiryDays = 14;
 $garbageCollectionHour = 3;
 
 # User agent
-$userAgent = "CycleStreets tilecache at http://{$_SERVER['SERVER_NAME']}/ Contact: http://www.cyclestreets.net/contacts/";
+$userAgent = "CycleStreets tilecache at https://{$_SERVER['SERVER_NAME']}/ Contact: https://www.cyclestreets.net/contacts/";
 
 # Fallback handling - if omitted, the first $layer will be used
 $fallback = array (
